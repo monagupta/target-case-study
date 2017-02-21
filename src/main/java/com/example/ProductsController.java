@@ -15,14 +15,14 @@ public class ProductsController {
 
     @RequestMapping(value="/products/{id}", method=RequestMethod.GET)
     @ResponseBody
-    String getProductInfo(@PathVariable("id") int id) {
-      return "Some product info for id=" + id;
+    Product getProductInfo(@PathVariable("id") int id) {
+      return new Product(id, "test name");
     }
 
     @RequestMapping(value="/products/{id}", method=RequestMethod.POST)
     @ResponseBody
-    String updateProductInfo(@PathVariable("id") int id) {
-      return "Updating product info for id=" + id;
+    Product updateProductInfo(@PathVariable("id") int id) {
+      return new Product(id, "test name");
     }
 
 }
