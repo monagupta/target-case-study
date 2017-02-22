@@ -42,6 +42,7 @@ public class DbHelper {
                 return null;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         } finally {
             cursor.close();
