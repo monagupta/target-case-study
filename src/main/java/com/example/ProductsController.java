@@ -15,6 +15,7 @@ public class ProductsController {
     private final static String API_EXCLUDES = "taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics";
 
     private RestTemplate restTemplate = new RestTemplate();
+    private DbHelper dbHelper = new DbHelper();
 
     // TODO(mona): Add a simple UI?
     @RequestMapping("/")
@@ -27,11 +28,11 @@ public class ProductsController {
     @ResponseBody
     Product getProductInfo(@PathVariable("id") int id) {
         String name = fetchNameForId(id);
-        // TODO(mona): Change to singleton
-        Price currentPrice = new DbHelper().fetchCurrentPriceForId(id);
+        Price currentPrice = dbHelper.fetchCurrentPriceForId(id);
         return new Product(id, name, currentPrice);
     }
 
+    // TODO(mona): Dummy endpoint
     @RequestMapping(value="/products/{id}", method=RequestMethod.POST)
     @ResponseBody
     Product updateProductInfo(@PathVariable("id") int id) {
