@@ -27,8 +27,8 @@ import java.util.List;
 @SpringBootApplication
 public class ProductsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProductsApplication.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(ProductsApplication.class, args);
         addSeedData();
     }
 
@@ -65,5 +65,5 @@ public class ProductsApplication {
         );
 
         prices.insertMany(seedData);
-	}
+    }
 }
