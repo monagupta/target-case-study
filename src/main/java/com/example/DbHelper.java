@@ -37,7 +37,7 @@ public class DbHelper {
         try {
             if (cursor.hasNext()) {
                 Document doc = cursor.next();
-                return new Price((Integer) doc.get("value"), (String) doc.get("currency_code"));
+                return new Price((Double) doc.get("value"), (String) doc.get("currency_code"));
             } else {
                 return null;
             }
