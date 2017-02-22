@@ -32,11 +32,11 @@ public class ProductsController {
         return new Product(id, name, currentPrice);
     }
 
-    // TODO(mona): Dummy endpoint
     @RequestMapping(value="/products/{id}", method=RequestMethod.POST)
     @ResponseBody
-    Product updateProductInfo(@PathVariable("id") int id) {
-        return new Product(id, "test name", null);
+    Product updateProductInfo(@PathVariable("id") int id, @RequestBody Price price) {
+        dbHelper.updatePriceForId(id, price);
+        return getProductInfo(id);
     }
 
     private String constructProductNameUrl(int id) {

@@ -5,12 +5,13 @@ import java.net.UnknownHostException;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.ServerAddress;
+import com.mongodb.BasicDBObject;
 
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
-import java.util.Arrays;
+import java.util.Map;
 import com.mongodb.Block;
 
 import com.mongodb.client.MongoCursor;
@@ -40,6 +41,7 @@ public class DbHelper {
         return sInstance;
     }
 
+    /* Accesses the prices collection. Queries for the price based on id */
     public Price fetchCurrentPriceForId(int id) {
         // Query for given id
         MongoCollection<Document> prices = db.getCollection("prices");
@@ -61,10 +63,17 @@ public class DbHelper {
         }
     }
 
-    /**
-        Add seed data to prices database, if and only if the
-        prices database is empty.
-    **/
+    /* Accesses the prices collection. Updates the price for a given id. If no record exists,
+        create a new record.
+    */
+    public void updatePriceForId(int id, Price price) {
+        MongoCollection<Document> prices = db.getCollection("prices");
+        Document updateQuery = new Document("id", id);
+        Document document = new Document("value", price.value).append("currency_code", price.currency_code);
+        prices.updateOne(updateQuery, new Document("$set", document)); // TODO(mona): Turn upsert on
+    }
+
+    /* Add seed data to prices database, if and only if the prices database is empty. */
     public void addSeedData() {
         MongoCollection<Document> prices = db.getCollection("prices");
 
