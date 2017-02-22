@@ -3,6 +3,14 @@
 ## Quick-Start
 View the application at https://frozen-citadel-78149.herokuapp.com/products/{id}. Seed pricing data has been placed in the database for ID's 1, 2, and 3. The proper name will be fetched using the sample IDs supplied in the prompt, such as 13860428.
 
+In addition to visiting the site in browser, you can use CURL commands to test out the functionality. For example,
+
+    curl -H 'Content-Type: application/json' -X PUT -d '{"value": 13.77, "currency_code": "USD"}' https://frozen-citadel-78149.herokuapp.com/products/13860428`
+
+OR
+
+    curl -H 'Content-Type: application/json' -X GET https://frozen-citadel-78149.herokuapp.com/products/2`
+
 ## Overview of Project
 This project uses the Spring framework and MongoDb hosted through Heroku.
 
