@@ -14,6 +14,8 @@ public class ProductsController {
     private final static String API_URL = "http://redsky.target.com/v1/pdp/tcin/";
     private final static String API_EXCLUDES = "taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics";
 
+    private RestTemplate restTemplate = new RestTemplate();
+
     // TODO(mona): Add a simple UI?
     @RequestMapping("/")
     @ResponseBody
@@ -42,8 +44,6 @@ public class ProductsController {
 
     private String fetchNameForId(int id) {
         String url = constructProductNameUrl(id);
-        // TODO(mona): Inject restTemplate?
-        RestTemplate restTemplate = new RestTemplate();
         String name;
         try {
             String response = restTemplate.getForObject(url, String.class);
