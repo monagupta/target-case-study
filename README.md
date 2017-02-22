@@ -5,11 +5,11 @@ View the application at https://frozen-citadel-78149.herokuapp.com/products/{id}
 
 In addition to visiting the site in browser, you can use CURL commands to test out the functionality. For example,
 
-    curl -H 'Content-Type: application/json' -X PUT -d '{"value": 13.77, "currency_code": "USD"}' https://frozen-citadel-78149.herokuapp.com/products/13860428`
+    curl -H 'Content-Type: application/json' -X PUT -d '{"value": 13.75, "currency_code": "USD"}' https://frozen-citadel-78149.herokuapp.com/products/13860428
 
 OR
 
-    curl -H 'Content-Type: application/json' -X GET https://frozen-citadel-78149.herokuapp.com/products/2`
+    curl -H 'Content-Type: application/json' -X GET https://frozen-citadel-78149.herokuapp.com/products/2
 
 ## Testing
 End-to-end tests are in `curl_tests.py`. It uses simple curl commands to hit the GET and PUT endpoint, and then checks for the correct output. These tests can be run with `python3 curl_tests.py`
