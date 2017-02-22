@@ -50,6 +50,7 @@ public class ProductsController {
             String response = restTemplate.getForObject(url, String.class);
             name = parseNameFromJson(response);
         } catch (HttpClientErrorException|JsonParseException|IllegalStateException e) {
+            e.printStackTrace();
             name = "Unable to fetch product name";
         }
 

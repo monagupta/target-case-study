@@ -9,6 +9,7 @@ import com.mongodb.BasicDBObject;
 
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.UpdateOptions;
 
 import org.bson.Document;
 import java.util.Map;
@@ -70,7 +71,10 @@ public class DbHelper {
         MongoCollection<Document> prices = db.getCollection("prices");
         Document updateQuery = new Document("id", id);
         Document document = new Document("value", price.value).append("currency_code", price.currency_code);
-        prices.updateOne(updateQuery, new Document("$set", document)); // TODO(mona): Turn upsert on
+
+        // Turn upsert on, so that if a record does not exist, it is created
+        UpdateOptions options = new UpdateOptions().upsert(true);
+        prices.updateOne(updateQuery, new Document("$set", document), options);
     }
 
     /* Add seed data to prices database, if and only if the prices database is empty. */
