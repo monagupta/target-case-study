@@ -29,8 +29,7 @@ These classes are simply container classes. They enable easy serial and deserial
 
 ## Running the project on Heroku
 1. In project directory, run `heroku create`
-2. Set up MongoDb sandbox instance through mongolab: `heroku addons:create mongolab`
-* The database URI is saved as a Heroku config variable: `heroku config:get MONGODB_URI`
+2. Set up MongoDb sandbox instance through mongolab: `heroku addons:create mongolab`. Note that the database URI is saved as a Heroku config variable: `heroku config:get MONGODB_URI`
 3. Deploy code with `git push heroku master`
 4. The application is currently running at https://frozen-citadel-78149.herokuapp.com/products/{id}
 
