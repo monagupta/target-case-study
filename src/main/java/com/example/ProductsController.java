@@ -2,27 +2,62 @@ package com.example;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.web.client.*;
+import org.springframework.http.*;
+import org.springframework.core.*;
+
+import com.google.gson.*;
 
 @Controller
 public class ProductsController {
+
+    private final static String API_URL = "http://redsky.target.com/v1/pdp/tcin/";
+    private final static String API_EXCLUDES = "taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics";
 
     // TODO(mona): Add a simple UI?
     @RequestMapping("/")
     @ResponseBody
     String home() {
-      return "Hello World!";
+        return "Hello World!";
     }
 
     @RequestMapping(value="/products/{id}", method=RequestMethod.GET)
     @ResponseBody
     Product getProductInfo(@PathVariable("id") int id) {
-      return new Product(id, "test name");
+        String url = constructProductNameUrl(id);
+        // TODO(mona): Inject restTemplate?
+        RestTemplate restTemplate = new RestTemplate();
+        String name;
+        try {
+            String response = restTemplate.getForObject(url, String.class);
+            name = parseNameFromJson(response);
+        } catch (HttpClientErrorException|JsonParseException|IllegalStateException e) {
+            name = "Unable to fetch product name";
+        }
+
+        return new Product(id, name);
     }
 
     @RequestMapping(value="/products/{id}", method=RequestMethod.POST)
     @ResponseBody
     Product updateProductInfo(@PathVariable("id") int id) {
-      return new Product(id, "test name");
+        return new Product(id, "test name");
+    }
+
+    private String constructProductNameUrl(int id) {
+        return API_URL + id + "?excludes=" + API_EXCLUDES;
+    }
+
+    private String parseNameFromJson(String jsonAsString) throws JsonParseException, IllegalStateException {
+        JsonParser parser = new JsonParser();
+        JsonObject element = (JsonObject) parser.parse(jsonAsString);
+
+        String name = element.get("product").getAsJsonObject()
+                            .get("item").getAsJsonObject()
+                            .get("product_description").getAsJsonObject()
+                            .get("title")
+                            .getAsString();
+        return name;
     }
 
 }
