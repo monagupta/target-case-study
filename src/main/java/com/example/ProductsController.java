@@ -32,7 +32,7 @@ public class ProductsController {
         return new Product(id, name, currentPrice);
     }
 
-    @RequestMapping(value="/products/{id}", method=RequestMethod.POST)
+    @RequestMapping(value="/products/{id}", method=RequestMethod.PUT)
     @ResponseBody
     Product updateProductInfo(@PathVariable("id") int id, @RequestBody Price price) {
         dbHelper.updatePriceForId(id, price);
