@@ -11,6 +11,9 @@ OR
 
     curl -H 'Content-Type: application/json' -X GET https://frozen-citadel-78149.herokuapp.com/products/2`
 
+## Testing
+End-to-end tests are in `curl_tests.py`. It uses simple curl commands to hit the GET and PUT endpoint, and then checks for the correct output. These tests can be run with `python3 curl_tests.py`
+
 ## Overview of Project
 This project uses the Spring framework and MongoDb hosted through Heroku.
 
