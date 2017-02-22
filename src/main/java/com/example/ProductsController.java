@@ -24,6 +24,23 @@ public class ProductsController {
     @RequestMapping(value="/products/{id}", method=RequestMethod.GET)
     @ResponseBody
     Product getProductInfo(@PathVariable("id") int id) {
+        String name = fetchNameForId(id);
+        // TODO(mona): Change to singleton
+        Price currentPrice = new DbHelper().fetchCurrentPriceForId(id);
+        return new Product(id, name, currentPrice);
+    }
+
+    @RequestMapping(value="/products/{id}", method=RequestMethod.POST)
+    @ResponseBody
+    Product updateProductInfo(@PathVariable("id") int id) {
+        return new Product(id, "test name", null);
+    }
+
+    private String constructProductNameUrl(int id) {
+        return API_URL + id + "?excludes=" + API_EXCLUDES;
+    }
+
+    private String fetchNameForId(int id) {
         String url = constructProductNameUrl(id);
         // TODO(mona): Inject restTemplate?
         RestTemplate restTemplate = new RestTemplate();
@@ -35,17 +52,7 @@ public class ProductsController {
             name = "Unable to fetch product name";
         }
 
-        return new Product(id, name);
-    }
-
-    @RequestMapping(value="/products/{id}", method=RequestMethod.POST)
-    @ResponseBody
-    Product updateProductInfo(@PathVariable("id") int id) {
-        return new Product(id, "test name");
-    }
-
-    private String constructProductNameUrl(int id) {
-        return API_URL + id + "?excludes=" + API_EXCLUDES;
+        return name;
     }
 
     private String parseNameFromJson(String jsonAsString) throws JsonParseException, IllegalStateException {
