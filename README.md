@@ -14,16 +14,17 @@ MongoDB tends to excel in use cases with frequent writes and seldom reads. These
 
 In a production environment, we would need to reconsider what the best database is.
 
-### Products Application
+### Description of Classes
+#### Products Application
 After starting, the Application calls `DbHelper` to add some dummy seed data to the database. This is not strictly necessary and should not be in a production environment. However, the seed data makes it easy to sanity-check simple functionality.
 
-### DbHelper
+#### DbHelper
 `DbHelper` functions as a Singleton. (Note that it still may be loaded/unloaded during the lifetime of the app, which is suboptimal). Upon creation, it sets up a connection with the NoSQL database and keeps this connection open. It provides an easy interface to look up prices, update prices, and add seed data.
 
-### Products Controller
+#### Products Controller
 There is one Controller in this project that handles both the `GET` and `PUT` to `/products/{id}`. This Controller handles the `HTTP` request to `redsky.target.com` using `RestTemplate`. All access to the NoSQL database goes through the Singleton `DbHelper`.
 
-### Price and Product
+#### Price and Product
 These classes are simply container classes. They enable easy serial and deserialization with JSON.
 
 ## Running the project on Heroku
