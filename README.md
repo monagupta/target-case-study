@@ -8,8 +8,9 @@ This project uses the Spring framework and MongoDb hosted through Heroku.
 
 ### Use of MongoDB
 MongoDB tends to excel in use cases with frequent writes and seldom reads. These characteristics make MongoDB a sub-optimal choice for this project, in which fetching an item's price will likely happen much more often than updating the price. With these factors in mind, I chose to use MongoDB regardless because:
-1) The database can easily handle the miniscule amount of data in this toy app, and
-2) MongoDB is the only NoSQL database on Heroku with a free pay tier
+
+1. The database can easily handle the miniscule amount of data in this toy app, and
+2. MongoDB is the only NoSQL database on Heroku with a free pay tier
 
 In a production environment, we would need to reconsider what the best database is.
 
