@@ -1,29 +1,15 @@
 package com.example;
 
 public class Product {
-    private int id;
-    private String name;
+    public int id;
+    public String name;
+    public Price current_price;
 
     public Product() {}
 
-    public Product(int id, String name) {
+    public Product(int id, String name, Price current_price) {
         this.id = id;
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.current_price = current_price;
     }
 }
