@@ -15,7 +15,7 @@ public class ProductsController {
     private final static String API_EXCLUDES = "taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics";
 
     private RestTemplate restTemplate = new RestTemplate();
-    private DbHelper dbHelper = new DbHelper();
+    private DbHelper dbHelper = DbHelper.getInstance();
 
     // TODO(mona): Add a simple UI?
     @RequestMapping("/")

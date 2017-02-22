@@ -22,13 +22,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DbHelper {
-    public Price fetchCurrentPriceForId(int id) {
+    private static DbHelper sInstance;
+    private MongoDatabase db;
+
+    /* Private constructor, acts as Singleton. Sets up the database connection */
+    private DbHelper() {
         // Create uri from Herkoku config variable
-        // TODO(mona): Don't open and close connection every time :p
         MongoClientURI uri = new MongoClientURI(System.getenv("MONGODB_URI"));
         MongoClient client = new MongoClient(uri);
-        MongoDatabase db = client.getDatabase(uri.getDatabase());
+        db = client.getDatabase(uri.getDatabase());
+    }
 
+    public static DbHelper getInstance() {
+        if (sInstance == null) {
+            sInstance = new DbHelper();
+        }
+        return sInstance;
+    }
+
+    public Price fetchCurrentPriceForId(int id) {
         // Query for given id
         MongoCollection<Document> prices = db.getCollection("prices");
         Document findQuery = new Document("id", id);
@@ -46,7 +58,36 @@ public class DbHelper {
             return null;
         } finally {
             cursor.close();
-            client.close();
         }
+    }
+
+    /**
+        Add seed data to prices database, if and only if the
+        prices database is empty.
+    **/
+    public void addSeedData() {
+        MongoCollection<Document> prices = db.getCollection("prices");
+
+        // Return early if the database is non-empty
+        if (prices.count() != 0) return;
+
+        List<Document> seedData = new ArrayList<Document>();
+
+        seedData.add(new Document("id", 1)
+            .append("value", 1.11)
+            .append("currency_code", "USD_1")
+        );
+
+        seedData.add(new Document("id", 2)
+            .append("value", 2.22)
+            .append("currency_code", "USD_2")
+        );
+
+        seedData.add(new Document("id", 3)
+            .append("value", 3.33)
+            .append("currency_code", "USD_3")
+        );
+
+        prices.insertMany(seedData);
     }
 }

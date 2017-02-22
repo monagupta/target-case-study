@@ -29,41 +29,7 @@ public class ProductsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ProductsApplication.class, args);
-        addSeedData();
+        DbHelper.getInstance().addSeedData();
     }
 
-    /**
-        Add seed data to prices database, if and only if the
-        prices database is empty.
-    **/
-    private static void addSeedData() {
-
-        MongoClientURI uri  = new MongoClientURI(System.getenv("MONGODB_URI"));
-        MongoClient client = new MongoClient(uri);
-        MongoDatabase db = client.getDatabase(uri.getDatabase());
-
-        MongoCollection<Document> prices = db.getCollection("prices");
-
-        // Return early if the database is non-empty
-        if (prices.count() != 0) return;
-
-        List<Document> seedData = new ArrayList<Document>();
-
-        seedData.add(new Document("id", 1)
-            .append("value", 1.11)
-            .append("currency_code", "USD_1")
-        );
-
-        seedData.add(new Document("id", 2)
-            .append("value", 2.22)
-            .append("currency_code", "USD_2")
-        );
-
-        seedData.add(new Document("id", 3)
-            .append("value", 3.33)
-            .append("currency_code", "USD_3")
-        );
-
-        prices.insertMany(seedData);
-    }
 }
